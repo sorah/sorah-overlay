@@ -44,15 +44,18 @@ RDEPEND="
 	>=app-admin/eselect-ruby-20100402
 	!=dev-lang/ruby-cvs-${SLOT}*
 	!<dev-ruby/rdoc-2
-	!<dev-ruby/rubygems-1.8.10-r1
-	!dev-ruby/rexml"
+	!dev-ruby/rubygems
+	!dev-ruby/rexml
+	!dev-ruby/rake"
 #	libedit? ( dev-libs/libedit )
 #	!libedit? ( readline? ( sys-libs/readline ) )
 
 DEPEND="${RDEPEND}"
 PDEPEND="
 	rdoc? ( >=dev-ruby/rdoc-2.5.11[ruby_targets_ruby19] )
-	xemacs? ( app-xemacs/ruby-modes )"
+	xemacs? ( app-xemacs/ruby-modes )
+	!dev-ruby/rubygems
+	!dev-ruby/rake"
 
 src_unpack() {
 	default
@@ -60,16 +63,16 @@ src_unpack() {
 }
 
 src_prepare() {
-	EPATCH_FORCE="yes" EPATCH_SUFFIX="patch" \
-	EPATCH_EXCLUDE="007_berkdb-5.0.patch 009_berkdb-5.0.patch" \
-	     epatch "${WORKDIR}/patches"
+	#EPATCH_FORCE="yes" EPATCH_SUFFIX="patch" \
+	#EPATCH_EXCLUDE="007_berkdb-5.0.patch 009_berkdb-5.0.patch" \
+	#     epatch "${WORKDIR}/patches"
 	#epatch "${FILESDIR}/ruby-1.9.3_rc1"
 
-	einfo "Unbundling gems..."
-	cd $S
-	rm -r \
-		bin/gem \
-		|| die "removal failed"
+	#einfo "Unbundling gems..."
+	#cd $S
+	#rm -r \
+	#	bin/gem \
+	#	|| die "removal failed"
 
 	# Fix a hardcoded lib path in configure script
 	sed -i -e "s:\(RUBY_LIB_PREFIX=\"\${prefix}/\)lib:\1$(get_libdir):" \
@@ -121,6 +124,7 @@ src_configure() {
 		--with-soname=ruby${MY_SUFFIX} \
 		--enable-shared \
 		--enable-pthread \
+		--with-baseruby="ruby --disable-gems" \
 		$(use_enable socks5 socks) \
 		$(use_enable doc install-doc) \
 		--enable-ipv6 \
@@ -172,20 +176,10 @@ src_install() {
 	done
 	export LD_LIBRARY_PATH RUBYLIB
 
-	emake DESTDIR="${D}" install || die "make install failed"
-
-	# Remove installed rubygems copy
-	rm -r "${D}/usr/$(get_libdir)/ruby/${RUBYVERSION}/rubygems" || die "rm rubygems failed"
-	rm -r "${D}/usr/$(get_libdir)/ruby/${RUBYVERSION}"/rdoc* || die "rm rdoc failed"
-	rm -r "${D}/usr/bin/"{ri,rdoc}"${MY_SUFFIX}" || die "rm rdoc bins failed"
-	rm -r "${D}/usr/$(get_libdir)/ruby/${RUBYVERSION}/json"{,.rb} \
-	      "${D}/usr/$(get_libdir)/ruby/${RUBYVERSION}/${RBPLATFORM}/json" \
-	   || die "rm json failed"
-	rm -r "${D}/usr/$(get_libdir)/ruby/${RUBYVERSION}/rake"{,.rb} || die "rm rake failed"
-	rm "${D}/usr/bin/rake"${MY_SUFFIX} || die "rm rake bin failed"
+	make DESTDIR=${D} install-nodoc || die "make install-nodoc failed"
 
 	if use doc; then
-		make DESTDIR="${D}" install-doc || die "make install-doc failed"
+		make DESTDIR=${D} install-doc || die "make install-doc failed"
 	fi
 
 	if use examples; then
