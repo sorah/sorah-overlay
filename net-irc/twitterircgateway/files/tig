@@ -1,0 +1,32 @@
+#!/sbin/runscript
+# Copyright 1999-2012 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+TIG_DIR=/opt/twitterircgateway
+TIG_PID=/var/run/tig.pid
+
+depend() {
+	need net
+}
+
+start() {
+	ebegin "Starting TwitterIRCGateway"
+
+	start-stop-daemon --start -v \
+	    --user tig:tig \
+	    --pidfile ${TIG_PID} \
+	    --make-pidfile \
+	    --chdir ${TIG_DIR} \
+	    --background \
+	    --exec mono -- ${TIG_DIR}/TwitterIrcGatewayCLI.exe
+
+	eend $? "Failed to start"
+}
+
+stop() {
+	ebegin "Stopping TwitterIRCGateway"
+	start-stop-daemon --stop --quiet --pidfile ${TIG_PID}
+	rm -f ${TIG_PID}
+	eend $?
+}
