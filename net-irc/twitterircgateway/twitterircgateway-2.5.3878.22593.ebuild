@@ -24,9 +24,9 @@ pkg_setup() {
 src_install() {
 	local dest="${D}/opt/twitterircgateway"
 
-	mkdir -p ${dest}
+	mkdir -p ${dest} || die
 	cp -R "${WORKDIR}/TwitterIrcGateway"/* "${dest}/" || die
-	fowners tig "${dest}/TwitterIrcGateway.exe.config"
+	chown -R tig:tig ${dest} || die
 
 	doinitd "${FILESDIR}/tig"
 }

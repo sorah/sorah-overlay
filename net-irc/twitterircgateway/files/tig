@@ -5,6 +5,7 @@
 
 TIG_DIR=/opt/twitterircgateway
 TIG_PID=/var/run/tig.pid
+TIG_OPT=`cat /etc/twitterircgateway.options 2>/dev/null`
 
 depend() {
 	need net
@@ -19,7 +20,7 @@ start() {
 	    --make-pidfile \
 	    --chdir ${TIG_DIR} \
 	    --background \
-	    --exec mono -- ${TIG_DIR}/TwitterIrcGatewayCLI.exe
+	    --exec mono -- ${TIG_DIR}/TwitterIrcGatewayCLI.exe ${TIG_OPT}
 
 	eend $? "Failed to start"
 }
