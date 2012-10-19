@@ -1,0 +1,10 @@
+--- Makefile    2012-10-19 22:12:51.870928676 +0900
++++ Makefile    2012-10-19 22:12:56.991928846 +0900
+@@ -42,7 +42,6 @@
+ 	install -m755 $(TARGET_LIB) $(PREFIX)/lib/$(TARGET_LIB).$(VER)
+ 	ln -sf $(PREFIX)/lib/$(TARGET_LIB).$(VER) $(PREFIX)/lib/$(TARGET_LIB).$(MAJOR)
+ 	ln -sf $(PREFIX)/lib/$(TARGET_LIB).$(MAJOR) $(PREFIX)/lib/$(TARGET_LIB)
+-	ldconfig
+ 
+ install-headers:
+ 	mkdir -p $(DEST_HEADER)
