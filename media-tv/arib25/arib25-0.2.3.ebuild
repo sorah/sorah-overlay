@@ -32,7 +32,6 @@ src_compile() {
 
 src_install() {
 	cd ${WORKDIR}/pt1-c44e16dbb0e2/arib25
-	mkdir ${D}/lib
-	mkdir ${D}/bin
-	emake PREFIX="${D}" install
+	mkdir -p ${D}/usr/local/{lib,bin}
+	emake PREFIX="${D}/usr/local" install
 }
