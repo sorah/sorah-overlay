@@ -6,7 +6,7 @@ EAPI=5
 
 DESCRIPTION="Agent for mackerel.io"
 HOMEPAGE="https://mackerel.io/"
-SRC_URI="https://mackerel.io/assets/files/agents/mackerel-agent-0.5.0-1.tar.gz"
+SRC_URI="https://mackerel.io/assets/files/agents/${P/_p/-}.tar.gz"
 
 LICENSE="mackerel-terms"
 SLOT="0"
@@ -16,7 +16,7 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}/mackerel-agent"
+S="${WORKDIR}/${PN}"
 
 
 src_install() {
