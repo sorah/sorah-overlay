@@ -17,8 +17,15 @@ IUSE=""
 RDEPEND="sys-fs/udev"
 DEPEND="${RDEPEND} virtual/pkgconfig"
 
-MODULE_NAMES="pt3_drv(kernel:drivers/video:${S}:${S})"
+MODULE_NAMES="pt3_drv(kernel/drivers/video:${S}:${S})"
 BUILD_TARGETS="all"
+
+
+
+src_compile() {
+  BUILD_PARAMS="KBUILD=${KV_OUT_DIR}"
+  linux-mod_src_compile
+}
 
 src_install() {
 	local udevdir="$(pkg-config --variable=udevdir udev)"
