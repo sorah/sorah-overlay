@@ -1,0 +1,3 @@
+# TEMPer1 USB thermometer
+ATTR{idVendor}=="1130", ATTR{idProduct}=="660c", OWNER="root", GROUP="wheel", MODE="0666"
+ATTR{idVendor}=="0c45", ATTR{idProduct}=="7401", OWNER="root", GROUP="wheel", MODE="0666"
