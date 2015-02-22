@@ -25,16 +25,12 @@ start() {
 		mkdir -p "$LOGPATH"
 		chown $USER:$USER "$LOGPATH"
 	fi
-	if [ ! -d "$ETCD_DATA_DIR" ] ; then
-		mkdir -p "$ETCD_DATA_DIR"
-		chown $USER:$USER "$ETCD_DATA_DIR"
-	fi
 
 	ebegin "Starting $SVCNAME"
 	start-stop-daemon --start \
 		--pidfile "$PIDFILE" \
 		--user $USER \
-		--chdir "$ETCD_DATA_DIR" \
+		--chdir "/" \
 		-1 "$LOGPATH/$SVCNAME.log" \
 		-2 "$LOGPATH/$SVCNAME.log" \
 		--background \
