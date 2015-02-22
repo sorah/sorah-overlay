@@ -1,0 +1,1 @@
+ETCD_OPTS="-data-dir=/var/lib/etcd"
