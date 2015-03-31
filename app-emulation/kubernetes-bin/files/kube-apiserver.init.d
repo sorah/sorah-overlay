@@ -12,5 +12,5 @@ depend() {
 
 start_pre() {
 	checkpath --directory --owner root:kube --mode 0775 /var/log/kubernetes
-	checkpath --directory --owner root:root --mode 0755 /var/run/kubernetes
+	checkpath --directory --owner kube:root --mode 0775 /var/run/kubernetes
 }
