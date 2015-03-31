@@ -31,7 +31,7 @@ src_install() {
 	if use master || use kubelet ; then
 		kube_components=""
 		if use master; then
-			kube_components="${kube_components} kube-apiserver kube-controller-manager kube-scheduler hyperkube"
+			kube_components="${kube_components} kube-apiserver kube-controller-manager kube-scheduler"
 		fi
 		if use kubelet; then
 			kube_components="${kube_components} kubelet kube-proxy"
