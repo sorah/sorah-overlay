@@ -82,6 +82,12 @@ pkg_setup(){
 	linux-info_pkg_setup
 }
 
+src_unpack() {
+    unpack ${A}
+    cd "${S}"
+	epatch "${FILESDIR}/install-without-acl-error-fix.patch"
+}
+
 src_prepare() {
 	sed -i 's:#!/sbin/runscript:#!/sbin/openrc-run:' \
 		"${S}"/src/sysv/gentoo/sssd.in || die "sed sssd.in"
