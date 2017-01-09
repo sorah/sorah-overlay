@@ -1,0 +1,24 @@
+From ee7fc56dd0d7bd2aa8be8a24290ae1de32b0dcec Mon Sep 17 00:00:00 2001
+From: Sorah Fukumori <her@sorah.jp>
+Date: Mon, 9 Jan 2017 10:08:06 +0900
+Subject: [PATCH] Put package's libs flag after %{objs}
+
+In case LDFLAG contains "-Wl,--as-needed" or "--as-needed" is enabled by
+default, "-l" flags should appear after objs specifiction.
+---
+ tasks/mrbgem_spec.rake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tasks/mrbgem_spec.rake b/tasks/mrbgem_spec.rake
+index 0aeedda..3053c3d 100644
+--- a/tasks/mrbgem_spec.rake
++++ b/tasks/mrbgem_spec.rake
+@@ -135,7 +135,7 @@ module MRuby
+         if system("pkg-config --exists #{escaped_package_query}")
+           cc.flags += [`pkg-config --cflags #{escaped_package_query}`.strip]
+           cxx.flags += [`pkg-config --cflags #{escaped_package_query}`.strip]
+-          linker.flags += [`pkg-config --libs #{escaped_package_query}`.strip]
++          linker.flags_before_libraries += [`pkg-config --libs #{escaped_package_query}`.strip]
+           true
+         else
+           false
